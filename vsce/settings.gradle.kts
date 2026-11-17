@@ -1,6 +1,6 @@
 pluginManagement {
     repositories {
-        google()
+        google()            // ← WAJIB ADA
         mavenCentral()
         gradlePluginPortal()
     }
