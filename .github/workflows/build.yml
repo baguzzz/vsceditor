@@ -26,6 +26,7 @@ jobs:
           cache-read-only: ${{ github.event_name == 'pull_request' }}
 
       - name: Build Debug APK
+        working-directory: vsce          # <-- Jalankan dari dalam folder vsce
         run: ./gradlew assembleDebug
 
       - name: Upload Debug APK
@@ -36,10 +37,12 @@ jobs:
 
       - name: Decode Keystore
         if: startsWith(github.ref, 'refs/tags/')
+        working-directory: vsce          # <-- Path keystore relatif terhadap vsce
         run: echo "${{ secrets.ANDROID_KEYSTORE_FILE }}" | base64 --decode > app/release.keystore
 
       - name: Build Release APK
         if: startsWith(github.ref, 'refs/tags/')
+        working-directory: vsce          # <-- Jalankan dari dalam folder vsce
         run: ./gradlew assembleRelease
         env:
           KEYSTORE_PATH: release.keystore
