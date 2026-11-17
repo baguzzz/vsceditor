@@ -24,7 +24,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-read-only: ${{ github.event_name == 'pull_request' }}
-
+       - name: Make gradlew executable
+        working-directory: vsce
+        run: chmod +x gradlew
+        
       - name: Build Debug APK
         working-directory: vsce          # <-- Jalankan dari dalam folder vsce
         run: ./gradlew assembleDebug
