@@ -24,7 +24,17 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-read-only: ${{ github.event_name == 'pull_request' }}
-
+      - name: Debug — Locate gradlew
+        run: |
+          echo "=== PWD saat ini ==="
+          pwd
+          echo "=== Isi root repo ==="
+          ls -la
+          echo "=== Mencari file gradlew di seluruh repo ==="
+          find . -maxdepth 3 -name "gradlew" -type f 2>/dev/null
+          echo "=== Isi folder vsce (jika ada) ==="
+          ls -la vsce/ 2>/dev/null || echo "Folder vsce TIDAK ADA"
+          
       - name: Make gradlew executable
         working-directory: vsce
         run: chmod +x gradlew
