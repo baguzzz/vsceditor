@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.android") version "2.2.21"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21" // Wajib untuk Kotlin 2.2.x
 }
 
 android {
@@ -9,22 +10,10 @@ android {
 
     defaultConfig {
         applicationId = "com.few.vsce"
-        minSdk = 21
+        minSdk = 26        // <--- Minimal Android 8.0 (Oreo)
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-    }
-
-    signingConfigs {
-        create("release") {
-            val ksPath = System.getenv("KEYSTORE_PATH")
-            if (ksPath != null && file(ksPath).exists()) {
-                storeFile = file(ksPath)
-                storePassword = System.getenv("KEYSTORE_PASSWORD")
-                keyAlias = System.getenv("KEY_ALIAS")
-                keyPassword = System.getenv("KEY_PASSWORD")
-            }
-        }
     }
 
     buildTypes {
@@ -46,15 +35,18 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}
     }
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.14"
-    }
+    // Catatan: Blok composeOptions { kotlinCompilerExtensionVersion } 
+    // tidak diperlukan lagi karena sudah di-handle oleh plugin compose 2.2.21
+    
     packaging {
         resources {
             excludes += setOf(
