@@ -22,13 +22,19 @@ jobs:
           cache: gradle
           cache-dependency-path: vsce/**/*.gradle*
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          accept-android-sdk-licenses: true
+          log-accepted-android-sdk-licenses: false
+
       - name: Grant execute permission for gradlew
         working-directory: vsce
         run: chmod +x gradlew
 
       - name: Build Debug APK
         working-directory: vsce
-        run: ./gradlew clean assembleDebug --refresh-dependencies --stacktrace
+        run: ./gradlew clean assembleDebug --stacktrace --info
 
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
