@@ -4,19 +4,23 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+
     plugins {
-    id("com.android.application") version "8.5.0"
-    id("org.jetbrains.kotlin.android") version "2.2.21"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
-}
+        id("com.android.application") version "8.5.0"
+        id("org.jetbrains.kotlin.android") version "2.0.21"
+        id("org.jetbrains.kotlin.plugin.compose") version "2.0.21"
+    }
 }
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
     repositories {
         google()
         mavenCentral()
-        maven { url = java.net.URI("https://jitpack.io") }
+        maven {
+            url = java.net.URI("https://jitpack.io")
+        }
     }
 }
 
