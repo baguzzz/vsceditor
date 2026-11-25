@@ -1,10 +1,16 @@
+plugins {
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.plugin.compose")
+}
+
 android {
     namespace = "com.few.vsce"
     compileSdk = 35
 
     defaultConfig {
         applicationId = "com.few.vsce"
-        minSdk = 26        // <--- Minimal Android 8.0 (Oreo)
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -18,10 +24,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            val ksPath = System.getenv("KEYSTORE_PATH")
-            if (ksPath != null && file(ksPath).exists()) {
-                signingConfig = signingConfigs.getByName("release")
-            }
         }
     }
 
@@ -29,18 +31,17 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlin {
-    compilerOptions {
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        compilerOptions {
+            jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        }
     }
-}
-    }
+
     buildFeatures {
         compose = true
     }
-    // Catatan: Blok composeOptions { kotlinCompilerExtensionVersion } 
-    // tidak diperlukan lagi karena sudah di-handle oleh plugin compose 2.2.21
-    
+
     packaging {
         resources {
             excludes += setOf(
