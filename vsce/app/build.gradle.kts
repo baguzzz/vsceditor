@@ -69,5 +69,6 @@ dependencies {
     implementation("org.eclipse.jgit:org.eclipse.jgit:5.13.1.202206130422-r") {
         exclude(group = "org.apache.sshd", module = "sshd-common")
     }
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
 }
