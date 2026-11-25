@@ -5,19 +5,20 @@ plugins {
 }
 
 android {
-    namespace = "com.few.vsce"
     compileSdk = 35
-
-    defaultConfig {
-        applicationId = "com.few.vsce"
-        minSdk = 26          // Android 8.0
-        targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
-
-        // Wajib untuk JGit di Android 8
-        multiDexEnabled = true
+    defaultConfig { minSdk = 26; /* ... */ }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        isCoreLibraryDesugaringEnabled = true
     }
+    kotlin { compilerOptions { jvmTarget = JvmTarget.JVM_17 } }
+}
+
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.2")
+    // ... dependensi lain
+}
 
     buildTypes {
         release {
