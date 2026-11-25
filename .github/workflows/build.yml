@@ -1,16 +1,22 @@
-name: Build Android (Gradle System)
+name: Build Android APK
 
 on:
   push:
     branches: [main, master]
+  pull_request:
+    branches: [main, master]
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     defaults:
       run:
-        working-directory: vsce   # sesuaikan jika foldernya androidapp
+        working-directory: vsce
 
     steps:
       - uses: actions/checkout@v4
@@ -19,17 +25,31 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
+          cache: gradle
+
+      - name: Install Gradle 8.7
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-8.7-bin.zip
+          unzip -q gradle-8.7-bin.zip -d /opt/
+          echo "/opt/gradle-8.7/bin" >> $GITHUB_PATH
+
+      - name: Verify Gradle & Java
+        run: |
+          gradle --version
+          java -version
 
       - name: Prepare Android SDK
         run: |
           echo "sdk.dir=$ANDROID_SDK_ROOT" > local.properties
           yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null 2>&1 || true
 
-      - name: Build with system Gradle
-        run: gradle assembleDebug --no-daemon
+      - name: Build Debug APK
+        run: gradle assembleDebug --no-daemon --stacktrace
 
-      - uses: actions/upload-artifact@v4
+      - name: Upload APK
         if: success()
+        uses: actions/upload-artifact@v4
         with:
-          name: app-debug
+          name: vsce-debug-apk
           path: vsce/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
