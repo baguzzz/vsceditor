@@ -1,9 +1,3 @@
-plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android") version "2.2.21"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21" // Wajib untuk Kotlin 2.2.x
-}
-
 android {
     namespace = "com.few.vsce"
     compileSdk = 35
